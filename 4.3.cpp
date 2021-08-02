@@ -1,39 +1,40 @@
 #include "hwlib.hpp"
 
+void switches(hwlib::pin_in_out & swi1, hwlib::pin_in_out & swi2, bool &more, bool &less){
+	swi1.refresh();
+	swi2.refresh();
+	if(swi1.read() == 1){
+		more = true;
+	}
+	if(swi2.read() == 1){
+		less = true;
+	}
+}
+
 int main( void ){
-	auto swi1 = hwlib::target::pin_in_out( 3, 4 );
-	auto swi2 = hwlib::target::pin_in_out( 3, 5 );
-	
+	auto swi1 = hwlib::target::pin_in_out( 2, 17 );
+	auto swi2 = hwlib::target::pin_in_out( 2, 15 );
 	swi1.direction_set_input();
 	swi2.direction_set_input();
 	
-	auto led0 = hwlib::target::pin_in_out( 3, 3 );
-	auto led1 = hwlib::target::pin_in_out( 3, 9 );
-	auto led2 = hwlib::target::pin_in_out( 3, 10 );
-	auto led3 = hwlib::target::pin_in_out( 3, 1 );
-	auto led4 = hwlib::target::pin_in_out( 3, 21 );
+	auto led0 = hwlib::target::pin_in_out( 3, 1 );
+	auto led1 = hwlib::target::pin_in_out( 3, 3 );
+	auto led2 = hwlib::target::pin_in_out( 3, 9 );
+	auto led3 = hwlib::target::pin_in_out( 3, 10 );
 	led0.direction_set_output();
 	led1.direction_set_output();
 	led2.direction_set_output();
 	led3.direction_set_output();	
-	led4.direction_set_output();	
 	
 	bool l1 = false;
-	bool l2 = false;
+	bool l2 = true;
 	bool l3 = false;
-	bool l4 = false;
+	bool l4 = true;
 	bool more = false;
 	bool less = false;
 	
    while(1){
-	   swi1.refresh();
-	   swi2.refresh();
-		if(swi1.read() == 1){
-			more = true;
-		}
-		if(swi2.read() == 1){
-			less = true;
-		}
+	   switches(swi1, swi2, more, less);
 	   
 	   //meer lampjes
 	   if(more == true){
@@ -73,37 +74,10 @@ int main( void ){
 		   less = false;
 	   }  
 
-		if(l1 == true){
-			led0.write( 1 );
-			led0.flush();
-		}else{
-			led0.write( 0 );
-			led0.flush();
-		}
-		
-		if(l2 == true){
-			led1.write( 1 );
-			led1.flush();
-		}else{
-			led1.write( 0 );
-			led1.flush();
-		}
-		
-		if(l3 == true){
-			led2.write( 1 );
-			led2.flush();
-		}else{
-			led2.write( 0 );
-			led2.flush();
-		}
-		
-		if(l4 == true){
-			led3.write( 1 );
-			led3.flush();
-		}else{
-			led3.write( 0 );
-			led3.flush();
-		}
-		hwlib::wait_ms( 150 );
+	led0.write(l1);
+	led1.write(l2);
+	led2.write(l3);
+	led3.write(l4);
+	hwlib::wait_ms( 150 );
 }
 }
