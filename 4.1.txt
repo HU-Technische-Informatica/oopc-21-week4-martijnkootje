@@ -1,3 +1,3 @@
 bare metal: Direct op hardware, zonder besturingsysteem.
 een weak pull-up zorgt er voor dat het voltage van de niet aangesloten pinnen op de arduino automatisch hoog is.
-door namespace te gebruiken kan je bijvoorbeel met een library programmeren zonder er steeds std:: of hwlib:: voor te zetten. en krijg je geen error omdat je deze prefix vergeet.
+door namespace te gebruiken krijg je geen last van het probleem dat c++ de verkeerde functie van een verkeerde library gebruikt
